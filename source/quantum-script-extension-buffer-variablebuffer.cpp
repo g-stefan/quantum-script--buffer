@@ -30,11 +30,14 @@ namespace Quantum {
 
 				using namespace XYO;
 
-				const char *VariableBuffer::typeBufferKey = "{D28585E9-AA47-4220-820A-AC777702F002}";
-				const void *VariableBuffer::typeBuffer;
+				XYO_DYNAMIC_TYPE_IMPLEMENT(VariableBuffer, "{D28585E9-AA47-4220-820A-AC777702F002}");
 				const char *VariableBuffer::strTypeBuffer = "Buffer";
 
-				String VariableBuffer::getType() {
+				VariableBuffer::VariableBuffer() {
+					XYO_DYNAMIC_TYPE_PUSH(VariableBuffer);
+				};
+
+				String VariableBuffer::getVariableType() {
 					return strTypeBuffer;
 				};
 
@@ -63,33 +66,28 @@ namespace Quantum {
 					return (Variable *) retV;
 				};
 
-				Variable &VariableBuffer::operatorReference(Symbol symbolId) {
+				TPointer<Variable> VariableBuffer::getPropertyBySymbol(Symbol symbolId) {
 					if(symbolId == Context::getSymbolLength()) {
-						if(vLength) {
-							if(vLength->hasOneReference()) {
-								((VariableNumber *)vLength.value())->value = (Number)buffer.length;
-							} else {
-								vLength=VariableNumber::newVariable((Number)buffer.length);
-							};
-						} else {
-							vLength=VariableNumber::newVariable((Number)buffer.length);
-						};
-						return *vLength;
+						return VariableNumber::newVariable((Number)buffer.length);
 					};
 					if(symbolId == Context::getSymbolSize()) {
-						if(vSize) {
-							if(vSize->hasOneReference()) {
-								((VariableNumber *)vSize.value())->value = (Number)buffer.size;
-							} else {
-								vSize=VariableNumber::newVariable((Number)buffer.size);
-							};
-						} else {
-							vSize=VariableNumber::newVariable((Number)buffer.size);
-						};
-						return *vSize;
+						return VariableNumber::newVariable((Number)buffer.size);
 					};
-					return operatorReferenceX(symbolId, (Extension::Buffer::getContext())->prototypeBuffer->prototype);
+					return Variable::getPropertyBySymbol(symbolId);
 				};
+
+				bool VariableBuffer::hasPropertyByVariable(Variable *variable) {
+					if(TIsType<VariableSymbol>(variable)) {
+						if((static_cast<VariableSymbol *>(variable))->value == Context::getSymbolLength()) {
+							return true;
+						};
+						if((static_cast<VariableSymbol *>(variable))->value == Context::getSymbolSize()) {
+							return true;
+						};
+					};
+					return (Extension::Buffer::getContext())->prototypeBuffer->prototype->hasPropertyByVariable(variable);
+				};
+
 
 				Variable *VariableBuffer::instancePrototype() {
 					return (Extension::Buffer::getContext())->prototypeBuffer->prototype;

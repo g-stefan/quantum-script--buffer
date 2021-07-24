@@ -67,7 +67,7 @@ namespace Quantum {
 					bufferContext->prototypeBuffer.newMemory();
 
 					defaultPrototypeFunction = (VariableFunction *)VariableFunction::newVariable(nullptr, nullptr, nullptr, functionBuffer, nullptr, nullptr);
-					((Context::getGlobalObject())->operatorReferenceOwnProperty(bufferContext->symbolFunctionBuffer))=defaultPrototypeFunction;
+					(Context::getGlobalObject())->setPropertyBySymbol(bufferContext->symbolFunctionBuffer, defaultPrototypeFunction);
 					bufferContext->prototypeBuffer = defaultPrototypeFunction->prototype;
 
 				};
@@ -77,7 +77,7 @@ namespace Quantum {
 					printf("- buffer-get-u8\n");
 #endif
 
-					if(!VariableBuffer::isVariableBuffer(this_)) {
+					if(!TIsType<VariableBuffer>(this_)) {
 						throw(Error("invalid parameter"));
 					};
 
@@ -97,7 +97,7 @@ namespace Quantum {
 					printf("- buffer-set-u8\n");
 #endif
 
-					if(!VariableBuffer::isVariableBuffer(this_)) {
+					if(!TIsType<VariableBuffer>(this_)) {
 						throw(Error("invalid parameter"));
 					};
 
@@ -132,7 +132,7 @@ namespace Quantum {
 					printf("- buffer-set\n");
 #endif
 
-					if(!VariableBuffer::isVariableBuffer(this_)) {
+					if(!TIsType<VariableBuffer>(this_)) {
 						throw(Error("invalid parameter"));
 					};
 
@@ -140,7 +140,7 @@ namespace Quantum {
 
 					TPointerX<Variable> &inV = arguments->index(1);
 
-					if(VariableString::isVariableString(inV)) {
+					if(TIsType<VariableString>(inV)) {
 						String in = inV->toString();
 						size_t stx = (arguments->index(0))->toIndex();
 						size_t st = (arguments->index(2))->toIndex();
@@ -179,7 +179,7 @@ namespace Quantum {
 						return VariableNumber::newVariable(ln);
 					};
 
-					if(VariableBuffer::isVariableBuffer(inV)) {
+					if(TIsType<VariableBuffer>(inV)) {
 						VariableBuffer *in = (VariableBuffer *)inV.value();
 						size_t stx = (arguments->index(0))->toIndex();
 						size_t st = (arguments->index(2))->toIndex();
@@ -227,13 +227,13 @@ namespace Quantum {
 					printf("- buffer-xor\n");
 #endif
 
-					if(!VariableBuffer::isVariableBuffer(this_)) {
+					if(!TIsType<VariableBuffer>(this_)) {
 						throw(Error("invalid parameter"));
 					};
 
 					TPointerX<Variable> &buffer(arguments->index(0));
 
-					if(!VariableBuffer::isVariableBuffer(buffer)) {
+					if(!TIsType<VariableBuffer>(buffer)) {
 						throw(Error("invalid parameter"));
 					};
 
@@ -256,7 +256,7 @@ namespace Quantum {
 					printf("- buffer-xor-avalanche-encode\n");
 #endif
 
-					if(!VariableBuffer::isVariableBuffer(this_)) {
+					if(!TIsType<VariableBuffer>(this_)) {
 						throw(Error("invalid parameter"));
 					};
 
@@ -270,7 +270,7 @@ namespace Quantum {
 					printf("- buffer-xor-avalanche-decode\n");
 #endif
 
-					if(!VariableBuffer::isVariableBuffer(this_)) {
+					if(!TIsType<VariableBuffer>(this_)) {
 						throw(Error("invalid parameter"));
 					};
 
@@ -293,7 +293,7 @@ namespace Quantum {
 					printf("- buffer-to-hex\n");
 #endif
 
-					if(!VariableBuffer::isVariableBuffer(this_)) {
+					if(!TIsType<VariableBuffer>(this_)) {
 						throw(Error("invalid parameter"));
 					};
 
@@ -306,7 +306,7 @@ namespace Quantum {
 					printf("- buffer-set-length\n");
 #endif
 
-					if(VariableBuffer::isVariableBuffer(this_)) {
+					if(TIsType<VariableBuffer>(this_)) {
 						throw(Error("invalid parameter"));
 					};
 
@@ -328,7 +328,7 @@ namespace Quantum {
 					printf("- buffer-to-string\n");
 #endif
 
-					if(!VariableBuffer::isVariableBuffer(this_)) {
+					if(!TIsType<VariableBuffer>(this_)) {
 						throw(Error("invalid parameter"));
 					};
 
@@ -347,7 +347,7 @@ namespace Quantum {
 					printf("- buffer-resize\n");
 #endif
 
-					if(!VariableBuffer::isVariableBuffer(this_)) {
+					if(!TIsType<VariableBuffer>(this_)) {
 						throw(Error("invalid parameter"));
 					};
 

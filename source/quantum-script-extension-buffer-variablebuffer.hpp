@@ -52,25 +52,18 @@ namespace Quantum {
 				class VariableBuffer :
 					public Variable {
 						XYO_DISALLOW_COPY_ASSIGN_MOVE(VariableBuffer);
+						XYO_DYNAMIC_TYPE_DEFINE(QUANTUM_SCRIPT_EXTENSION_BUFFER_EXPORT, VariableBuffer);
 					protected:
 						QUANTUM_SCRIPT_EXTENSION_BUFFER_EXPORT static const char *strTypeBuffer;
-						QUANTUM_SCRIPT_EXTENSION_BUFFER_EXPORT static const char *typeBufferKey;
-						QUANTUM_SCRIPT_EXTENSION_BUFFER_EXPORT static const void *typeBuffer;
 
-						TPointer<Variable> vLength;
 						TPointer<Variable> vSize;
 					public:
-
 						XYO::Buffer buffer;
 
-						inline VariableBuffer() {
-							variableType = registerType(typeBuffer, typeBufferKey);
-						};
+						QUANTUM_SCRIPT_EXTENSION_BUFFER_EXPORT VariableBuffer();
 
 						inline void activeDestructor() {
 							buffer.activeDestructor();
-							vLength.deleteMemory();
-							vSize.deleteMemory();
 						};
 
 						QUANTUM_SCRIPT_EXTENSION_BUFFER_EXPORT  static Variable *newVariable();
@@ -78,7 +71,10 @@ namespace Quantum {
 						QUANTUM_SCRIPT_EXTENSION_BUFFER_EXPORT  static Variable *newVariable(const uint8_t *data, size_t dataSize);
 						QUANTUM_SCRIPT_EXTENSION_BUFFER_EXPORT  static Variable *newVariableFromString(String str_);
 
-						QUANTUM_SCRIPT_EXTENSION_BUFFER_EXPORT String getType();
+						QUANTUM_SCRIPT_EXTENSION_BUFFER_EXPORT TPointer<Variable> getPropertyBySymbol(Symbol symbolId);
+						QUANTUM_SCRIPT_EXTENSION_BUFFER_EXPORT bool hasPropertyByVariable(Variable *variable);
+
+						QUANTUM_SCRIPT_EXTENSION_BUFFER_EXPORT String getVariableType();
 
 						QUANTUM_SCRIPT_EXTENSION_BUFFER_EXPORT Variable &operatorReference(Symbol symbolId);
 						QUANTUM_SCRIPT_EXTENSION_BUFFER_EXPORT Variable *instancePrototype();
@@ -93,13 +89,6 @@ namespace Quantum {
 						QUANTUM_SCRIPT_EXTENSION_BUFFER_EXPORT bool isString();
 
 						QUANTUM_SCRIPT_EXTENSION_BUFFER_EXPORT void resize(size_t size);
-						//
-						inline static bool isVariableBuffer(const Variable *value) {
-							if(typeBuffer == nullptr) {
-								typeBuffer = registerType(typeBuffer, typeBufferKey);
-							};
-							return (value->variableType == typeBuffer);
-						};
 
 				};
 
