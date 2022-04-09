@@ -11,23 +11,23 @@
 #define QUANTUM_SCRIPT_EXTENSION_BUFFER_HPP
 
 #ifndef QUANTUM_SCRIPT_HPP
-#include "quantum-script.hpp"
+#	include "quantum-script.hpp"
 #endif
 
 #ifndef QUANTUM_SCRIPT_EXTENSION_BUFFER__EXPORT_HPP
-#include "quantum-script-extension-buffer--export.hpp"
+#	include "quantum-script-extension-buffer--export.hpp"
 #endif
 
 #ifndef QUANTUM_SCRIPT_EXTENSION_BUFFER_COPYRIGHT_HPP
-#include "quantum-script-extension-buffer-copyright.hpp"
+#	include "quantum-script-extension-buffer-copyright.hpp"
 #endif
 
 #ifndef QUANTUM_SCRIPT_EXTENSION_BUFFER_LICENSE_HPP
-#include "quantum-script-extension-buffer-license.hpp"
+#	include "quantum-script-extension-buffer-license.hpp"
 #endif
 
 #ifndef QUANTUM_SCRIPT_EXTENSION_BUFFER_VERSION_HPP
-#include "quantum-script-extension-buffer-version.hpp"
+#	include "quantum-script-extension-buffer-version.hpp"
 #endif
 
 namespace Quantum {
@@ -37,11 +37,10 @@ namespace Quantum {
 
 				using namespace Quantum::Script;
 
-				class BufferContext:
-					public Object {
+				class BufferContext : public Object {
 						XYO_DISALLOW_COPY_ASSIGN_MOVE(BufferContext);
-					public:
 
+					public:
 						Symbol symbolFunctionBuffer;
 						TPointerX<Prototype> prototypeBuffer;
 
@@ -59,4 +58,3 @@ namespace Quantum {
 };
 
 #endif
-

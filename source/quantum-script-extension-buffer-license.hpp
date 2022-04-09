@@ -11,7 +11,7 @@
 #define QUANTUM_SCRIPT_EXTENSION_BUFFER_LICENSE_HPP
 
 #ifndef QUANTUM_SCRIPT_EXTENSION_BUFFER__EXPORT_HPP
-#include "quantum-script-extension-buffer--export.hpp"
+#	include "quantum-script-extension-buffer--export.hpp"
 #endif
 
 namespace Quantum {

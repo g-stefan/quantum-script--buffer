@@ -21,12 +21,10 @@
 #include "quantum-script-extension-buffer.hpp"
 #include "quantum-script-extension-buffer-variablebuffer.hpp"
 
-
 namespace Quantum {
 	namespace Script {
 		namespace Extension {
 			namespace Buffer {
-
 
 				using namespace XYO;
 
@@ -42,52 +40,51 @@ namespace Quantum {
 				};
 
 				Variable *VariableBuffer::newVariable() {
-					return (Variable *) TMemory<VariableBuffer>::newMemory();
+					return (Variable *)TMemory<VariableBuffer>::newMemory();
 				};
 
 				Variable *VariableBuffer::newVariable(size_t size) {
 					VariableBuffer *retV;
 					retV = TMemory<VariableBuffer>::newMemory();
 					retV->buffer.setSize(size);
-					return (Variable *) retV;
+					return (Variable *)retV;
 				};
 
 				Variable *VariableBuffer::newVariable(const uint8_t *data, size_t dataSize) {
 					VariableBuffer *retV;
 					retV = TMemory<VariableBuffer>::newMemory();
 					retV->buffer.set(data, dataSize);
-					return (Variable *) retV;
+					return (Variable *)retV;
 				};
 
 				Variable *VariableBuffer::newVariableFromString(String str_) {
 					VariableBuffer *retV;
 					retV = TMemory<VariableBuffer>::newMemory();
 					retV->buffer.fromString(str_);
-					return (Variable *) retV;
+					return (Variable *)retV;
 				};
 
 				TPointer<Variable> VariableBuffer::getPropertyBySymbol(Symbol symbolId) {
-					if(symbolId == Context::getSymbolLength()) {
+					if (symbolId == Context::getSymbolLength()) {
 						return VariableNumber::newVariable((Number)buffer.length);
 					};
-					if(symbolId == Context::getSymbolSize()) {
+					if (symbolId == Context::getSymbolSize()) {
 						return VariableNumber::newVariable((Number)buffer.size);
 					};
 					return Variable::getPropertyBySymbol(symbolId);
 				};
 
 				bool VariableBuffer::hasPropertyByVariable(Variable *variable) {
-					if(TIsType<VariableSymbol>(variable)) {
-						if((static_cast<VariableSymbol *>(variable))->value == Context::getSymbolLength()) {
+					if (TIsType<VariableSymbol>(variable)) {
+						if ((static_cast<VariableSymbol *>(variable))->value == Context::getSymbolLength()) {
 							return true;
 						};
-						if((static_cast<VariableSymbol *>(variable))->value == Context::getSymbolSize()) {
+						if ((static_cast<VariableSymbol *>(variable))->value == Context::getSymbolSize()) {
 							return true;
 						};
 					};
 					return (Extension::Buffer::getContext())->prototypeBuffer->prototype->hasPropertyByVariable(variable);
 				};
-
 
 				Variable *VariableBuffer::instancePrototype() {
 					return (Extension::Buffer::getContext())->prototypeBuffer->prototype;
@@ -109,7 +106,7 @@ namespace Quantum {
 
 				Number VariableBuffer::toNumber() {
 					Number retV;
-					if(sscanf((char *)buffer.buffer, QUANTUM_SCRIPT_FORMAT_NUMBER_INPUT, &retV) == 1) {
+					if (sscanf((char *)buffer.buffer, QUANTUM_SCRIPT_FORMAT_NUMBER_INPUT, &retV) == 1) {
 						return retV;
 					};
 					return NAN;
@@ -133,5 +130,3 @@ namespace Quantum {
 		};
 	};
 };
-
-
