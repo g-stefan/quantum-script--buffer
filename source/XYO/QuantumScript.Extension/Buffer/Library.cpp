@@ -51,7 +51,7 @@ namespace XYO::QuantumScript::Extension::Buffer {
 	};
 
 	static TPointer<Variable> getU8(VariableFunction *function, Variable *this_, VariableArray *arguments) {
-#ifdef QUANTUM_SCRIPT_DEBUG_RUNTIME
+#ifdef XYO_QUANTUMSCRIPT_DEBUG_RUNTIME
 		printf("- buffer-get-u8\n");
 #endif
 
@@ -71,7 +71,7 @@ namespace XYO::QuantumScript::Extension::Buffer {
 	};
 
 	static TPointer<Variable> setU8(VariableFunction *function, Variable *this_, VariableArray *arguments) {
-#ifdef QUANTUM_SCRIPT_DEBUG_RUNTIME
+#ifdef XYO_QUANTUMSCRIPT_DEBUG_RUNTIME
 		printf("- buffer-set-u8\n");
 #endif
 
@@ -105,7 +105,7 @@ namespace XYO::QuantumScript::Extension::Buffer {
 	};
 
 	static TPointer<Variable> set_(VariableFunction *function, Variable *this_, VariableArray *arguments) {
-#ifdef QUANTUM_SCRIPT_DEBUG_RUNTIME
+#ifdef XYO_QUANTUMSCRIPT_DEBUG_RUNTIME
 		printf("- buffer-set\n");
 #endif
 
@@ -199,7 +199,7 @@ namespace XYO::QuantumScript::Extension::Buffer {
 	};
 
 	static TPointer<Variable> fromHex(VariableFunction *function, Variable *this_, VariableArray *arguments) {
-#ifdef QUANTUM_SCRIPT_DEBUG_RUNTIME
+#ifdef XYO_QUANTUMSCRIPT_DEBUG_RUNTIME
 		printf("- buffer-from-hex\n");
 #endif
 		TPointer<Variable> retV(VariableBuffer::newVariable());
@@ -208,7 +208,7 @@ namespace XYO::QuantumScript::Extension::Buffer {
 	};
 
 	static TPointer<Variable> toHex(VariableFunction *function, Variable *this_, VariableArray *arguments) {
-#ifdef QUANTUM_SCRIPT_DEBUG_RUNTIME
+#ifdef XYO_QUANTUMSCRIPT_DEBUG_RUNTIME
 		printf("- buffer-to-hex\n");
 #endif
 
@@ -220,7 +220,7 @@ namespace XYO::QuantumScript::Extension::Buffer {
 	};
 
 	static TPointer<Variable> setLength(VariableFunction *function, Variable *this_, VariableArray *arguments) {
-#ifdef QUANTUM_SCRIPT_DEBUG_RUNTIME
+#ifdef XYO_QUANTUMSCRIPT_DEBUG_RUNTIME
 		printf("- buffer-set-length\n");
 #endif
 
@@ -242,7 +242,7 @@ namespace XYO::QuantumScript::Extension::Buffer {
 	};
 
 	static TPointer<Variable> toString(VariableFunction *function, Variable *this_, VariableArray *arguments) {
-#ifdef QUANTUM_SCRIPT_DEBUG_RUNTIME
+#ifdef XYO_QUANTUMSCRIPT_DEBUG_RUNTIME
 		printf("- buffer-to-string\n");
 #endif
 
@@ -254,14 +254,14 @@ namespace XYO::QuantumScript::Extension::Buffer {
 	};
 
 	static TPointer<Variable> fromString(VariableFunction *function, Variable *this_, VariableArray *arguments) {
-#ifdef QUANTUM_SCRIPT_DEBUG_RUNTIME
+#ifdef XYO_QUANTUMSCRIPT_DEBUG_RUNTIME
 		printf("- buffer-from-string\n");
 #endif
 		return VariableBuffer::newVariableFromString((arguments->index(0))->toString());
 	};
 
 	static TPointer<Variable> resize(VariableFunction *function, Variable *this_, VariableArray *arguments) {
-#ifdef QUANTUM_SCRIPT_DEBUG_RUNTIME
+#ifdef XYO_QUANTUMSCRIPT_DEBUG_RUNTIME
 		printf("- buffer-resize\n");
 #endif
 
