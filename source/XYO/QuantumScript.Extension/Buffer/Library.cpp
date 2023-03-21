@@ -281,7 +281,7 @@ namespace XYO::QuantumScript::Extension::Buffer {
 	void initExecutive(Executive *executive, void *extensionId) {
 
 		String info = "Buffer\r\n";
-		info << License::shortLicense();
+		info << License::shortLicense().c_str();
 
 		executive->setExtensionName(extensionId, "Buffer");
 		executive->setExtensionInfo(extensionId, info);

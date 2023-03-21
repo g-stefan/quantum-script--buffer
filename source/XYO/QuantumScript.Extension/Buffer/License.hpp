@@ -13,8 +13,8 @@
 
 namespace XYO::QuantumScript::Extension::Buffer::License {
 
-	XYO_QUANTUMSCRIPT_EXTENSION_BUFFER_EXPORT const char *license();
-	XYO_QUANTUMSCRIPT_EXTENSION_BUFFER_EXPORT const char *shortLicense();
+	XYO_QUANTUMSCRIPT_EXTENSION_BUFFER_EXPORT std::string license();
+	XYO_QUANTUMSCRIPT_EXTENSION_BUFFER_EXPORT std::string shortLicense();
 
 };
 
