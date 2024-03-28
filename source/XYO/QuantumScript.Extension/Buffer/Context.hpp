@@ -14,7 +14,7 @@
 namespace XYO::QuantumScript::Extension::Buffer {
 
 	class BufferContext : public Object {
-			XYO_DISALLOW_COPY_ASSIGN_MOVE(BufferContext);
+			XYO_PLATFORM_DISALLOW_COPY_ASSIGN_MOVE(BufferContext);
 
 		public:
 			Symbol symbolFunctionBuffer;

@@ -23,7 +23,7 @@ namespace XYO::ManagedMemory {
 namespace XYO::QuantumScript::Extension::Buffer {
 
 	class VariableBuffer : public Variable {
-			XYO_DISALLOW_COPY_ASSIGN_MOVE(VariableBuffer);
+			XYO_PLATFORM_DISALLOW_COPY_ASSIGN_MOVE(VariableBuffer);
 			XYO_DYNAMIC_TYPE_DEFINE(XYO_QUANTUMSCRIPT_EXTENSION_BUFFER_EXPORT, VariableBuffer);
 
 		protected:

@@ -8,4 +8,4 @@
 #include <XYO/QuantumScript.Extension/Buffer/Copyright.rh>
 #include <XYO/QuantumScript.Extension/Buffer/Version.rh>
 
-XYO_APPLICATION_VERSION_INFO(XYO_QUANTUMSCRIPT_EXTENSION_BUFFER,"quantum-script--buffer.dll","Quantum Script Extension Buffer")
+XYO_PLATFORM_VERSION_INFO(XYO_QUANTUMSCRIPT_EXTENSION_BUFFER,"quantum-script--buffer.dll","Quantum Script Extension Buffer")
