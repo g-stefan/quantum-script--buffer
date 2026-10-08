@@ -104,6 +104,43 @@ namespace XYO::QuantumScript::Extension::Buffer {
 		return Context::getValueUndefined();
 	};
 
+	static TPointer<Variable> setFrom(VariableBuffer *this_, size_t stx, const uint8_t *in, size_t inLength, size_t st, size_t lnRequested, bool fill_) {
+		size_t size = this_->buffer.size;
+		size_t ln = lnRequested;
+
+		if (stx >= size) {
+			return VariableNumber::newVariable(0);
+		};
+		if (ln > size - stx) {
+			ln = size - stx;
+		};
+		if (st >= inLength) {
+			return VariableNumber::newVariable(0);
+		};
+		if (ln > inLength - st) {
+			ln = inLength - st;
+		};
+
+		memmove(&this_->buffer.buffer[stx], &in[st], ln);
+
+		if (this_->buffer.length < stx + ln) {
+			this_->buffer.length = stx + ln;
+		};
+
+		if (fill_) {
+			size_t fillEnd = size;
+			if (lnRequested < size - stx) {
+				fillEnd = stx + lnRequested;
+			};
+			if (this_->buffer.length < fillEnd) {
+				memset(&this_->buffer.buffer[this_->buffer.length], 0, fillEnd - this_->buffer.length);
+				this_->buffer.length = fillEnd;
+			};
+		};
+
+		return VariableNumber::newVariable(ln);
+	};
+
 	static TPointer<Variable> set_(VariableFunction *function, Variable *this_, VariableArray *arguments) {
 #ifdef XYO_QUANTUMSCRIPT_DEBUG_RUNTIME
 		printf("- buffer-set\n");
@@ -114,85 +151,20 @@ namespace XYO::QuantumScript::Extension::Buffer {
 		};
 
 		bool fill_ = (arguments->index(4))->toBoolean();
+		size_t stx = (arguments->index(0))->toIndex();
+		size_t st = (arguments->index(2))->toIndex();
+		size_t ln = (arguments->index(3))->toIndex();
 
 		TPointerX<Variable> &inV = arguments->index(1);
 
 		if (TIsType<VariableString>(inV)) {
 			String in = inV->toString();
-			size_t stx = (arguments->index(0))->toIndex();
-			size_t st = (arguments->index(2))->toIndex();
-			size_t ln = (arguments->index(3))->toIndex();
-
-			if (stx + ln > ((VariableBuffer *)this_)->buffer.size) {
-				if (stx >= ((VariableBuffer *)this_)->buffer.size) {
-					return VariableNumber::newVariable(0);
-				};
-				ln = ((VariableBuffer *)this_)->buffer.size - stx;
-			};
-			if (ln + st > in.length()) {
-				if (st >= in.length()) {
-					return VariableNumber::newVariable(0);
-				};
-				ln = in.length() - st;
-			};
-
-			memcpy(&((VariableBuffer *)this_)->buffer.buffer[stx], in.index(st), ln);
-
-			if (((VariableBuffer *)this_)->buffer.length < stx + ln) {
-				((VariableBuffer *)this_)->buffer.length = stx + ln;
-			};
-
-			if (fill_) {
-				if (stx + (arguments->index(3))->toIndex() >= ((VariableBuffer *)this_)->buffer.size) {
-					memset(&((VariableBuffer *)this_)->buffer.buffer[ln], 0, ((VariableBuffer *)this_)->buffer.size - ln);
-					((VariableBuffer *)this_)->buffer.length = ((VariableBuffer *)this_)->buffer.size;
-				} else {
-					if (((VariableBuffer *)this_)->buffer.length <= stx + (arguments->index(3))->toIndex()) {
-						memset(&((VariableBuffer *)this_)->buffer.buffer[ln], 0, stx + (arguments->index(3))->toIndex() - ln);
-						((VariableBuffer *)this_)->buffer.length = stx + (arguments->index(3))->toIndex();
-					};
-				};
-			};
-			return VariableNumber::newVariable(ln);
+			return setFrom((VariableBuffer *)this_, stx, (const uint8_t *)in.value(), in.length(), st, ln, fill_);
 		};
 
 		if (TIsType<VariableBuffer>(inV)) {
 			VariableBuffer *in = (VariableBuffer *)inV.value();
-			size_t stx = (arguments->index(0))->toIndex();
-			size_t st = (arguments->index(2))->toIndex();
-			size_t ln = (arguments->index(3))->toIndex();
-
-			if (stx + ln > ((VariableBuffer *)this_)->buffer.size) {
-				if (stx >= ((VariableBuffer *)this_)->buffer.size) {
-					return VariableNumber::newVariable(0);
-				};
-				ln = ((VariableBuffer *)this_)->buffer.size - stx;
-			};
-			if (ln + st > in->buffer.length) {
-				if (st >= in->buffer.length) {
-					return VariableNumber::newVariable(0);
-				};
-				ln = in->buffer.length - st;
-			};
-
-			memcpy(&((VariableBuffer *)this_)->buffer.buffer[stx], &in->buffer.buffer[st], ln);
-
-			if (((VariableBuffer *)this_)->buffer.length < stx + ln) {
-				((VariableBuffer *)this_)->buffer.length = stx + ln;
-			};
-
-			if (fill_) {
-				if (stx + (arguments->index(3))->toIndex() >= ((VariableBuffer *)this_)->buffer.size) {
-					memset(&((VariableBuffer *)this_)->buffer.buffer[((VariableBuffer *)this_)->buffer.length], 0, ((VariableBuffer *)this_)->buffer.size - ((VariableBuffer *)this_)->buffer.length);
-					((VariableBuffer *)this_)->buffer.length = ((VariableBuffer *)this_)->buffer.size;
-				} else {
-					if (((VariableBuffer *)this_)->buffer.length <= stx + (arguments->index(3))->toIndex()) {
-						memset(&((VariableBuffer *)this_)->buffer.buffer[((VariableBuffer *)this_)->buffer.length], 0, stx + (arguments->index(3))->toIndex() - ((VariableBuffer *)this_)->buffer.length);
-						((VariableBuffer *)this_)->buffer.length = stx + (arguments->index(3))->toIndex();
-					};
-				};
-			};
-			return VariableNumber::newVariable(ln);
+			return setFrom((VariableBuffer *)this_, stx, in->buffer.buffer, in->buffer.length, st, ln, fill_);
 		};
 
 		return VariableNumber::newVariable(0);
@@ -224,7 +196,7 @@ namespace XYO::QuantumScript::Extension::Buffer {
 		printf("- buffer-set-length\n");
 #endif
 
-		if (TIsType<VariableBuffer>(this_)) {
+		if (!TIsType<VariableBuffer>(this_)) {
 			throw(Error("invalid parameter"));
 		};
 
@@ -237,7 +209,7 @@ namespace XYO::QuantumScript::Extension::Buffer {
 			return VariableNumber::newVariable(0);
 		};
 
-		((VariableBuffer *)this_)->buffer.length = x;
+		((VariableBuffer *)this_)->buffer.length = (size_t)x;
 		return VariableNumber::newVariable(((VariableBuffer *)this_)->buffer.length);
 	};
 

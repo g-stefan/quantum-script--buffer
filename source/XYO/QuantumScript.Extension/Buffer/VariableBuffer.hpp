@@ -50,7 +50,6 @@ namespace XYO::QuantumScript::Extension::Buffer {
 
 			XYO_QUANTUMSCRIPT_EXTENSION_BUFFER_EXPORT String getVariableType();
 
-			XYO_QUANTUMSCRIPT_EXTENSION_BUFFER_EXPORT Variable &operatorReference(Symbol symbolId);
 			XYO_QUANTUMSCRIPT_EXTENSION_BUFFER_EXPORT Variable *instancePrototype();
 
 			XYO_QUANTUMSCRIPT_EXTENSION_BUFFER_EXPORT static void initMemory();

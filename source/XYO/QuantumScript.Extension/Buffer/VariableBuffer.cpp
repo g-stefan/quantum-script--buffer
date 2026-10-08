@@ -92,8 +92,12 @@ namespace XYO::QuantumScript::Extension::Buffer {
 	};
 
 	Number VariableBuffer::toNumber() {
+		if (buffer.length == 0) {
+			return NAN;
+		};
+		String value = toString();
 		Number retV;
-		if (sscanf((char *)buffer.buffer, XYO_QUANTUMSCRIPT_FORMAT_NUMBER_INPUT, &retV) == 1) {
+		if (sscanf(value.value(), XYO_QUANTUMSCRIPT_FORMAT_NUMBER_INPUT, &retV) == 1) {
 			return retV;
 		};
 		return NAN;
